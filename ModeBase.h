@@ -12,17 +12,24 @@ protected:
     uint16_t _speed;
 
 public:
+
+    // ================= PURE VIRTUAL =================
+
     virtual void refreshData() = 0;
 
-    void setupMode(textEffect_t effect, uint16_t speed)
+    // ================= VIRTUAL =================
+
+    virtual void setupMode(textEffect_t effect, uint16_t speed)
     {
         _effect = effect;
         _speed = speed;
 
+        refreshData();
+
         render();
     }
 
-    void render()
+    virtual void render()
     {
         P.displayClear();
 
@@ -33,14 +40,19 @@ public:
         P.synchZoneStart();
     }
 
-    void run()
+    virtual void run()
     {
         if (P.displayAnimate())
         {
             refreshData();
+
             render();
         }
     }
+
+    // ================= DESTRUCTOR =================
+
+    virtual ~DoubleHeightMode() {}
 };
 
 #endif
